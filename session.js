@@ -29,7 +29,7 @@ app.use(session({
   }
 }))
 
-app.get("/", (req, res) => {
+app.get('/', (req, res) => {
   const session = req.session;
   if (session.username && session.password) {
     if (session.username) {
@@ -37,25 +37,25 @@ app.get("/", (req, res) => {
       res.end('<a href="/logout"><button>Log out</button></a >')
     }
   } else {
-    res.sendFile(__dirname + "/login.html")
+    res.sendFile(__dirname + '/login.html')
   }
 });
 
-app.post("/login", (req, res) => {
+app.post('/login', (req, res) => {
   const session = req.session;
   const { username, password } = req.body
   session.username = username
   session.password = password
 
-  res.end("Successfully logged in!")
+  res.end('Successfully logged in!')
 });
 
-app.get("/logout", (req, res) => {
+app.get('/logout', (req, res) => {
   req.session.destroy(err => {
     if (err) {
       return console.log(err);
     }
-    res.redirect("/")
+    res.redirect('/')
   });
 });
 
