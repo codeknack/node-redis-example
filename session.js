@@ -23,6 +23,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
+    sameSite: true,
     secure: false,
     httpOnly: false, 
     maxAge: 1000 * 60 * 10
@@ -33,8 +34,7 @@ app.get('/', (req, res) => {
   const session = req.session;
   if (session.username && session.password) {
     if (session.username) {
-      res.write(`<h1>Welcome ${session.username}! </h1><br>`)
-      res.end('<a href="/logout"><button>Log out</button></a >')
+      res.send(`<h1>Welcome ${session.username}! </h1><br><a href="/logout"><button>Log out</button></a >`)
     }
   } else {
     res.sendFile(__dirname + '/login.html')
@@ -46,8 +46,8 @@ app.post('/login', (req, res) => {
   const { username, password } = req.body
   session.username = username
   session.password = password
-
-  res.end('Successfully logged in!')
+  res.type('html')
+  res.send('Successfully logged in!')
 });
 
 app.get('/logout', (req, res) => {
